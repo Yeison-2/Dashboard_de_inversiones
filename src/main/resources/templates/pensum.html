@@ -4,7 +4,67 @@
 <body>
 
 <nav th:replace="layout/layout:: navbar"></nav>
-<h1> Esta es la pagina del pensum</h1>
+
+<div class="container mt-5">
+    <div class="text-center">
+        <h1>Hola, Compañeros</h1>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="text-center">
+
+        Este espacio encontraras el plan de estudios de la JDC
+    </div>
+    <hr class="mx-auto" style="width: 50%;">
+</div>
+
+<div class="container mt-4">
+    <div class="text-center">
+        <h6><em>Esta materia es de 7 semestre y tiene 3 créditos</em></h6>
+    </div>
+</div>
+
+
+<div class="container mt-4">
+    <div class="row">
+<div class="col-md-6">
+        <div class=" card" style="width: 80%">
+            <div class="card-header">
+                <h5 class="card-title">Empresa</h5>
+            </div>
+            <div class ="card-body">
+                <p class="card-text">
+                    Actividades Empresariales
+                </p>
+            </div>
+        </div>
+        </div>
+            <div class="col-md-6">
+        <div class=" card" style="width: 80%">
+            <div class="card-header">
+                <h5 class="card-title">Empresa</h5>
+            </div>
+            <div class ="card-body">
+                <p class="card-text">
+                    Actividades Empresariales
+                </p>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="text-center">
+        <img th:src="@{/images/bootstrap.png}" alt="imag Boo" style="width: 50%; border-radius: 20px" align="center">
+    </div>
+
+</div>
+
+<footer th:replace="layout/layout:: footer"></footer>
+
+
 
 </body>
 </html>

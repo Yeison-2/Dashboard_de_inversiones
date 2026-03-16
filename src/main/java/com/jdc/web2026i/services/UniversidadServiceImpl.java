@@ -15,7 +15,7 @@ public class UniversidadServiceImpl implements UniversidadService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<UniversidadEntity>finAll(){
+    public List<UniversidadEntity>findAll(){
         return (List<UniversidadEntity>) universidadRepository.findAll();
     }
 

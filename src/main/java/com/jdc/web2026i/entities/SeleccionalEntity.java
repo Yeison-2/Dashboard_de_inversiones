@@ -2,6 +2,8 @@ package com.jdc.web2026i.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -9,6 +11,9 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
+
+@Getter
+@Setter
 
 @Entity
 @Table(name = "seleccionales")
@@ -39,37 +44,5 @@ public class SeleccionalEntity implements Serializable {
 
     @OneToMany(mappedBy = "seleccional", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TelefonoEntity> telefonos;
-
-
-    public Integer getIdSeleccional() {
-        return idSeleccional;
-    }
-
-    public void setIdSeleccional(Integer idSeleccional) {
-        this.idSeleccional = idSeleccional;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getDireccion() {
-        return direccion;
-    }
-
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
-
-    public UniversidadEntity getUniversidad() {
-        return universidad;
-    }
-
-    public void setUniversidad(UniversidadEntity universidad) {
-        this.universidad = universidad;
-    }
 }
+

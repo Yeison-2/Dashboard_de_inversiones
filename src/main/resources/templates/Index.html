@@ -4,13 +4,18 @@
 <body>
 
 <nav th:replace="layout/layout:: navbar"></nav>
+<div class="container mt-4">
+    <div class ="text-center">
+
 <div>
     <h1>Bienvenido a Desarrollo de Software II</h1>
     <p>Los científicos estudian el mundo tal como es; los ingenieros crean el mundo que nunca ha sido</p>
+
     <img th:src="@{/images/bootstrap.png}" alt="imag Boo" style="width: 50%; border-radius: 20px">
+    </div>
 </div>
 
-<div class=" card" style="width: 80%">
+<div class=" card mt-4" style="width: 100%">
     <div class="card-header">
         Pagina de prueba
     </div>
@@ -26,8 +31,12 @@
             <a href="https://www.jdc.edu.co/" class="btn btn-prymary">Visita la Juan</a>
         </div>
 </div>
+</div>
 
-<footer th:replace="layout/layout:: footer"></footer>
+
+<div class="container mt-4">
+    <footer th:replace="layout/layout:: footer"></footer>
+</div>
 
 </body>
 </html>

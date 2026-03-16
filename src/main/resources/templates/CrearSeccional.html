@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="Layout/Layout:: head "> </head>
+<body>
+<nav th:replace="Layout/Layout:: navbar"></nav>
+
+<h1 class="page-content mt-4 text-center" th:text="${titulo}"></h1>
+
+<div class ="container mt-4">
+
+
+    <div>
+        <form>
+            <div class="mb-3">
+                <label for="nombreform" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombreform" aria-describedby="nombreHelp">
+                <div id="nombreHelp" class="form-text">Ejm. Juan de Castellanos</div>
+            </div>
+            <div class="mb-3">
+                <label for="direccionform" class="form-label">Dirección</label>
+                <input type="text" class="form-control" id="direccionform">
+            </div>
+            <button type="submit" class="btn btn-primary">Crear Seccional</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

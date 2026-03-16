@@ -3,10 +3,12 @@ package com.jdc.web2026i.services;
 import com.jdc.web2026i.entities.RectorEntity;
 import com.jdc.web2026i.repository.RectorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Service
 public class RectorServiceImpl implements RectorService{
 
     @Autowired

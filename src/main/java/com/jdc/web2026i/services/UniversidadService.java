@@ -5,7 +5,7 @@ import com.jdc.web2026i.entities.UniversidadEntity;
 import java.util.List;
 
 public interface UniversidadService{
-    public List<UniversidadEntity> finAll();
+    public List<UniversidadEntity> findAll();
     public UniversidadEntity findById(Long id);
     public void save(UniversidadEntity universidad);
     public void delete(Long id);
