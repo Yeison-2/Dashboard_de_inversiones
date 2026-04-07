@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/Layout :: head}"></head>
+<body>
+<nav th:replace="~{layout/Layout :: navbar}"></nav>
+
+<div class="container mt-4">
+    <form th:object="${objTelefono}" th:action="@{/EditarTelefonoBy/{id}(id=${objTelefono.idTelefono})}" method="post">
+        <input type="hidden" th:field="*{idTelefono}"/>
+
+        <fieldset>
+            <legend>Formulario Telefono</legend>
+
+            <div class="mb-3">
+                <label for="numero" class="form-label">Numero</label>
+                <input type="text" class="form-control" id="numero"
+                       th:field="*{numero}" placeholder="Ej: 3201234567">
+            </div>
+
+            <div class="mb-3">
+                <label for="tipo" class="form-label">Tipo</label>
+                <select class="form-select" id="tipo" th:field="*{tipo}">
+                    <option value="Fijo">Fijo</option>
+                    <option value="Movil">Movil</option>
+                    <option value="Oficina">Oficina</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="seccional" class="form-label">Seccional</label>
+                <select class="form-select" id="seccional" name="idSeccional" required>
+                    <option value="" disabled>Seleccione una seccional</option>
+                    <option th:each="s : ${seccionales}"
+                            th:value="${s.idSeleccional}"
+                            th:text="${s.nombre}"
+                            th:selected="${objTelefono.seleccional != null and objTelefono.seleccional.idSeleccional == s.idSeleccional}">
+                    </option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Actualizar</button>
+        </fieldset>
+    </form>
+
+    <br>
+    <a th:href="@{/ListarTelefonos}" class="btn btn-danger">Cancelar</a>
+</div>
+
+<footer th:replace="~{layout/Layout :: footer}"></footer>
+</body>
+</html>

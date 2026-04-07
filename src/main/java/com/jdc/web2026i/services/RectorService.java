@@ -9,4 +9,7 @@ public interface RectorService {
     public RectorEntity findById(Long id);
     public void save(RectorEntity rector);
     public void delete(Long id);
+    // Rectores con docuemnbto de identidad
+    public List<RectorEntity> findByDocumentoIdentidad(String tipo);
+
 }

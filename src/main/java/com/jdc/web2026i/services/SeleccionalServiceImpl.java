@@ -37,4 +37,11 @@ public class SeleccionalServiceImpl implements SeleccionalService{
     public void delete(Long id) {
         seleccionalRepository.deleteById(id);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<SeleccionalEntity> findByIdMayorIgual(Integer idMinimo) {
+        return seleccionalRepository.findByIdSeleccionalGreaterThanEqual(idMinimo);
+    }
+
 }

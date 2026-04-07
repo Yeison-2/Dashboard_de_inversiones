@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/Layout :: head"></head>
+<body>
+<nav th:replace="layout/Layout :: navbar"></nav>
+
+<div class="container mt-4">
+    <form th:object="${objRector}" th:action="@{/CrearRector}" method="post">
+        <fieldset>
+            <legend>Formulario Rector</legend>
+
+            <div class="mb-3">
+                <label for="primApellido" class="form-label">Primer Apellido</label>
+                <input type="text" class="form-control" id="primApellido"
+                       th:field="*{primerapellido}" placeholder="Ej: Rodríguez">
+            </div>
+
+            <div class="mb-3">
+                <label for="segApellido" class="form-label">Segundo Apellido</label>
+                <input type="text" class="form-control" id="segApellido"
+                       th:field="*{segundoapellido}" placeholder="Ej: López">
+            </div>
+
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre"
+                       th:field="*{nombre}" placeholder="Ej: Juan">
+            </div>
+
+            <div class="mb-3">
+                <label for="numDocumento" class="form-label">Número Documento</label>
+                <input type="text" class="form-control" id="numDocumento"
+                       th:field="*{num_documento}" placeholder="Ej: 123456789">
+            </div>
+
+            <div class="mb-3">
+                <label for="tipDocumento" class="form-label">Tipo Documento</label>
+                <input type="text" class="form-control" id="tipDocumento"
+                       th:field="*{tipo}" placeholder="Ej: CC">
+            </div>
+
+            <div class="mb-3">
+                <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+                <input type="date" class="form-control" id="fechaNacimiento"
+                       th:field="*{fechaNacimiento}">
+            </div>
+
+            <div class="mb-3">
+                <label for="universidad" class="form-label">Universidad</label>
+
+                <!-- Alerta si no hay universidades disponibles -->
+                <div th:if="${#lists.isEmpty(universidades.?[rector == null])}"
+                     class="alert alert-warning">
+                    ⚠️ Todas las universidades ya tienen rector asignado. No es posible registrar un nuevo rector.
+                </div>
+
+                <select class="form-select" id="universidad" name="idUniversidad" required
+                        th:if="${!#lists.isEmpty(universidades.?[rector == null])}">
+                    <option value="" disabled selected>Seleccione una universidad sin rector</option>
+                    <option th:each="u : ${universidades}"
+                            th:if="${u.rector == null}"
+                            th:value="${u.idUniversidad}"
+                            th:text="${u.nombre}">
+                    </option>
+                </select>
+                <small class="text-muted"
+                       th:if="${!#lists.isEmpty(universidades.?[rector == null])}">
+                    Solo se muestran universidades sin rector asignado.
+                </small>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">Registrar</button>
+        </fieldset>
+    </form>
+
+    <br>
+    <a th:href="@{/ListarRector}" class="btn btn-danger">Cancelar</a>
+</div>
+
+<footer th:replace="layout/Layout :: footer"></footer>
+</body>
+</html>

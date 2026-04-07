@@ -21,7 +21,7 @@ public class RectorServiceImpl implements RectorService{
     }
 
     @Override
-    @Transactional()
+    @Transactional(readOnly = true)
     public RectorEntity findById(Long id) {
         return rectorRepository.findById(id).orElse(null); // se obtiene el rector por su id, si no se encuentra se devuelve null
     }
@@ -33,9 +33,20 @@ public class RectorServiceImpl implements RectorService{
     }
 
     @Override
-    @Transactional
+    @Transactional()
     public void delete(Long id) {
-        rectorRepository.deleteById(id); // se elimina el rector por su id
+        rectorRepository.deleteById(id);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<RectorEntity> findByDocumentoIdentidad(String tipo) {
+        if (tipo == null || tipo.trim().isEmpty()) {
+            return List.of();
+        }
+        return rectorRepository.findByTipoIgnoreCase(tipo.trim());
+    }
+
+
 
 }

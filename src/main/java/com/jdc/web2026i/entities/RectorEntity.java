@@ -3,8 +3,6 @@ package com.jdc.web2026i.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -16,7 +14,8 @@ public class RectorEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "idrector")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idrector", nullable = false, updatable = false)
     private Integer idDirector;
 
     @NotNull
@@ -36,8 +35,7 @@ public class RectorEntity implements Serializable {
 
     @NotNull
     @Column(name = "num_documento")
-    @Size(min = 0,max = 50)
-    private int  num_documento;
+    private int num_documento;
 
     @NotNull
     @Column(name = "tipo")
@@ -50,9 +48,8 @@ public class RectorEntity implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
 
-    @OneToOne                   //se establece la relacion de uno a uno
-    @JoinColumn(name = "idUniversidad", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_universidad", nullable = true)
     private UniversidadEntity universidad;
 
 

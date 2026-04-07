@@ -1,14 +1,13 @@
 package com.jdc.web2026i.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.antlr.v4.runtime.misc.NotNull;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
@@ -18,8 +17,7 @@ import java.util.List;
 @Entity
 @Table(name = "seleccionales")
 public class SeleccionalEntity implements Serializable {
-    @Serial
-    private static final long serialVersionID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

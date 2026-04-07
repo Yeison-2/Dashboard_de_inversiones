@@ -9,4 +9,6 @@ public interface SeleccionalService {
     public SeleccionalEntity findById(Long id);
     public void save(SeleccionalEntity rector);
     public void delete(Long id);
+    List<SeleccionalEntity> findByIdMayorIgual(Integer idMinimo);
+
 }

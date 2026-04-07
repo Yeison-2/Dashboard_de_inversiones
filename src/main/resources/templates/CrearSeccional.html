@@ -1,29 +1,43 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="Layout/Layout:: head "> </head>
+<head th:replace="layout/Layout :: head"></head>
 <body>
-<nav th:replace="Layout/Layout:: navbar"></nav>
+<nav th:replace="layout/Layout :: navbar"></nav>
 
 <h1 class="page-content mt-4 text-center" th:text="${titulo}"></h1>
 
-<div class ="container mt-4">
+<div class="container mt-4">
+    <form th:object="${objSeccional}" th:action="@{/crearSeleccionales}" method="post">
+        <div class="mb-3">
+            <label for="nombreform" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombreform" aria-describedby="nombreHelp"
+                   th:field="*{nombre}" placeholder="Ej: Seccional Norte">
+            <div id="nombreHelp" class="form-text">Ingrese el nombre de la seccional.</div>
+        </div>
 
+        <div class="mb-3">
+            <label for="direccionform" class="form-label">Direccion</label>
+            <input type="text" class="form-control" id="direccionform"
+                   th:field="*{direccion}" placeholder="Ej: Calle 10 # 20-30">
+        </div>
 
-    <div>
-        <form>
-            <div class="mb-3">
-                <label for="nombreform" class="form-label">Nombre</label>
-                <input type="text" class="form-control" id="nombreform" aria-describedby="nombreHelp">
-                <div id="nombreHelp" class="form-text">Ejm. Juan de Castellanos</div>
-            </div>
-            <div class="mb-3">
-                <label for="direccionform" class="form-label">Dirección</label>
-                <input type="text" class="form-control" id="direccionform">
-            </div>
-            <button type="submit" class="btn btn-primary">Crear Seccional</button>
-        </form>
-    </div>
+        <div class="mb-3">
+            <label for="universidad" class="form-label">Universidad</label>
+            <select class="form-select" id="universidad" name="idUniversidad" required>
+                <option value="" disabled selected>Seleccione una universidad</option>
+                <option th:each="u : ${universidades}"
+                        th:value="${u.idUniversidad}"
+                        th:text="${u.nombre}">
+                </option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Crear Seccional</button>
+        <a th:href="@{/listarSeccionales}" class="btn btn-danger">Cancelar</a>
+    </form>
 </div>
+
+<footer th:replace="layout/Layout :: footer"></footer>
 </body>
 </html>

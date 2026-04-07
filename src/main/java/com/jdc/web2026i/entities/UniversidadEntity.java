@@ -1,10 +1,9 @@
 package com.jdc.web2026i.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import org.antlr.v4.runtime.misc.NotNull;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
@@ -12,8 +11,7 @@ import java.util.List;
 @Table(name = "universidades")
 
 public class UniversidadEntity implements Serializable {
-    @Serial
-    private static final long serialVersionID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +36,7 @@ public class UniversidadEntity implements Serializable {
     @Size(min = 1, max = 200)
     private String descripcion;
 
-    @OneToOne(mappedBy = "universidad")
+    @OneToOne(mappedBy = "universidad", fetch = FetchType.LAZY)
     private RectorEntity rector;
 
     //conexiom con seleccionales
