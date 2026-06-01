@@ -1,6 +1,8 @@
 # Sistema de Gestión de Proyectos e Inversiones - Web 2026-i
 
 ## Descripción del Proyecto
+<img width="1354" height="745" alt="image" src="https://github.com/user-attachments/assets/8e8b8083-b92e-4fd6-bdcb-ba108e2e8657" />
+
 
 **Web-2026-i** es una aplicación web desarrollada con **Spring Boot 4.0.2** que implementa un sistema integral de gestión de proyectos e inversiones para instituciones educativas. La aplicación permite administrar información sobre proyectos de desarrollo, sus inversiones asociadas y generar reportes y análisis de inversión.
 
@@ -12,11 +14,12 @@
 - **Seguridad**: Spring Security
 - **Testing**: JUnit 5, Spring Security Test
 - **Utilidades**: Lombok, PDFBox, JFreeChart, Maven
-- **Lenguajes**: Java 25, Kotlin 2.2.20
+- **Lenguajes**: Java 25
 
 ---
 
 ## Funcionalidades Principales
+<img width="475" height="382" alt="image" src="https://github.com/user-attachments/assets/0eae96ec-d5bd-494a-9701-b8ac96d5d465" />
 
 ### 1. **Autenticación y Autorización**
 - Sistema de login seguro con Spring Security
@@ -28,7 +31,10 @@
 - Visualización y gestión de usuarios con roles específicos
 - Validación de permisos por sectorial asignada
 
+
+
 ### 2. **Gestión de Proyectos**
+<img width="739" height="602" alt="image" src="https://github.com/user-attachments/assets/12c64def-1520-437a-bf11-1f49d98fba81" />
 - **Crear Proyectos**: Formulario para registrar nuevos proyectos con información completa
 - **Editar Proyectos**: Modificación de datos existentes con validaciones
 - **Gestión de Estados**: Clasificación de proyectos por estados (Planeación, Ejecución, Completado, etc.)
