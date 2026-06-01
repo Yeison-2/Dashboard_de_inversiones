@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Consultas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark mb-4" style="background: linear-gradient(90deg,#0f766e,#155e75);">
+    <div class="container-fluid px-4">
+        <span class="navbar-brand fw-semibold">Consultas de inversion</span>
+        <div class="d-flex gap-2 flex-wrap">
+            <a class="btn btn-outline-light btn-sm" sec:authorize="isAuthenticated()" th:href="@{/gestion/proyecto}">Nuevo proyecto</a>
+            <a class="btn btn-outline-light btn-sm" th:href="@{/dashboard}">Dashboard</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid px-4 pb-5">
+    <p class="text-secondary mb-4">Ejecute consultas sobre los proyectos cargados segun estado/fecha del registro,
+        o inversiones agrupadas por municipio y fuente en un intervalo.</p>
+
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white fw-semibold">Proyectos por estado y fecha de registro</div>
+                <div class="card-body">
+                    <form th:action="@{/gestion/consultas}" method="get" class="row g-2">
+                        <div class="col-12">
+                            <label class="form-label small">Estado del proyecto</label>
+                            <select class="form-select form-select-sm" name="estado" required>
+                                <option disabled value="" th:selected="${estadoFiltroSeleccionado == null}">Seleccione…</option>
+                                <option th:each="e : ${estadosConsulta}"
+                                        th:value="${e.name()}"
+                                        th:text="${e}"
+                                        th:selected="${estadoFiltroSeleccionado != null && estadoFiltroSeleccionado == e.name()}"></option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small">Desde</label>
+                            <input type="date" class="form-control form-control-sm" name="desde"
+                                   th:value="${consultaEstadoDesde}" required/>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small">Hasta</label>
+                            <input type="date" class="form-control form-control-sm" name="hasta"
+                                   th:value="${consultaEstadoHasta}" required/>
+                        </div>
+                        <div class="col-12 mt-2">
+                            <button class="btn btn-primary btn-sm" type="submit">Consultar proyectos</button>
+                        </div>
+                    </form>
+
+                    <div class="alert alert-warning py-2 small" th:if="${consultaEstadoError != null}" th:text="${consultaEstadoError}"></div>
+
+                    <div class="table-responsive mt-3" th:if="${consultaEstadoResultados != null}">
+                        <table class="table table-sm table-hover align-middle">
+                            <thead class="table-light">
+                            <tr>
+                                <th>Proyecto</th>
+                                <th>Municipio</th>
+                                <th>Estado</th>
+                                <th>Registro</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:if="${consultaEstadoResultados.empty}">
+                                <td colspan="4" class="text-muted">Sin resultados en el intervalo.</td>
+                            </tr>
+                            <tr th:each="pr : ${consultaEstadoResultados}">
+                                <td class="fw-medium" th:text="${pr.nombreProyecto}"></td>
+                                <td>
+                                    <span th:text="${pr.municipio.nombre}"></span>
+                                    <span class="text-muted small" th:text="${' · ' + pr.municipio.departamento}"></span>
+                                </td>
+                                <td><span class="badge text-bg-secondary" th:text="${pr.estado}"></span></td>
+                                <td th:text="${pr.fechaRegistro}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white fw-semibold">
+                    Movimientos de inversion por municipio y fuente (prueba tres municipios en datos semilla)</div>
+                <div class="card-body">
+                    <form th:action="@{/gestion/consultas}" method="get" class="row g-2">
+                        <div class="col-12">
+                            <label class="form-label small">Municipio</label>
+                            <select class="form-select form-select-sm" name="municipioConsulta" required>
+                                <option disabled value="" th:selected="${municipioConsultaSel == null}">Seleccione…</option>
+                                <option th:each="mu : ${municipios}"
+                                        th:value="${mu.id}"
+                                        th:text="${mu.nombre + ' — ' + mu.departamento}"
+                                        th:selected="${municipioConsultaSel != null && municipioConsultaSel == mu.id}"></option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small">Fuente / inversionista</label>
+                            <select class="form-select form-select-sm" name="fuenteConsulta" required>
+                                <option disabled value="" th:selected="${fuenteConsultaSel == null}">Seleccione…</option>
+                                <option th:each="f : ${fuentes}"
+                                        th:value="${f.name()}"
+                                        th:text="${f}"
+                                        th:selected="${fuenteConsultaSel != null && fuenteConsultaSel == f.name()}"></option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small">Desde</label>
+                            <input type="date" class="form-control form-control-sm" name="invDesde"
+                                   th:value="${invDesdeSel}" required/>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small">Hasta</label>
+                            <input type="date" class="form-control form-control-sm" name="invHasta"
+                                   th:value="${invHastaSel}" required/>
+                        </div>
+                        <div class="col-12 mt-2">
+                            <button class="btn btn-primary btn-sm" type="submit">Consultar inversiones</button>
+                        </div>
+                    </form>
+
+                    <div class="table-responsive mt-3" th:if="${consultaInversionPorMunicipio != null}">
+                        <table class="table table-sm table-hover">
+                            <thead class="table-light">
+                            <tr>
+                                <th>Fecha inversion</th>
+                                <th>Proyecto</th>
+                                <th>Sectorial</th>
+                                <th>Fuente</th>
+                                <th>Aportante</th>
+                                <th class="text-end">Monto</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:if="${consultaInversionPorMunicipio.empty}">
+                                <td colspan="6" class="text-muted">Sin movimientos en el filtro elegido.</td>
+                            </tr>
+                            <tr th:each="inv : ${consultaInversionPorMunicipio}">
+                                <td th:text="${inv.fechaInversion}"></td>
+                                <td th:text="${inv.proyecto.nombreProyecto}"></td>
+                                <td th:text="${inv.proyecto.sectorial.nombre}"></td>
+                                <td th:text="${inv.fuenteInversion}"></td>
+                                <td th:text="${inv.nombreAportante != null && !inv.nombreAportante.isBlank()} ? ${inv.nombreAportante} : '-'"></td>
+                                <td class="text-end font-monospace" th:text="${'$ ' + inv.monto}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

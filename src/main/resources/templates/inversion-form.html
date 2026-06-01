@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Inversion</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark mb-4" style="background: linear-gradient(90deg,#0f766e,#155e75);">
+    <div class="container">
+        <a class="navbar-brand fw-semibold" th:href="@{/dashboard}">Inventario de inversion</a>
+        <div class="d-flex gap-2">
+            <a class="btn btn-outline-light btn-sm" th:href="@{/dashboard}">Dashboard</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container pb-5" style="max-width:640px;">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0" th:text="${inversion.id == null ? 'Registrar inversion' : 'Modificar inversion'}">Inversion</h1>
+        <a th:if="${inversion.id == null && proyectoIdSeleccionado != null}"
+           th:href="@{/gestion/inversion-multiple(proyectoId=${proyectoIdSeleccionado})}"
+           class="btn btn-outline-primary btn-sm">
+            <i class="bi bi-plus-circle"></i> Registrar Múltiples Fuentes
+        </a>
+    </div>
+
+    <div class="alert alert-info py-2" th:if="${fechaRegistroProyecto != null}">
+        <small>La fecha de inversion debe ser <strong>posterior o igual</strong> a la fecha de registro del proyecto:
+            <span th:text="${fechaRegistroProyecto}">2024-01-01</span></small>
+    </div>
+
+    <form th:action="@{/gestion/inversion}" method="post" class="card shadow-sm">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <input type="hidden" name="id" th:value="${inversion.id}"/>
+
+        <div class="card-body">
+            <div class="mb-3" th:if="${inversion.id == null}">
+                <label class="form-label">Proyecto</label>
+                <select class="form-select" name="proyectoId" required>
+                    <option disabled value="" th:selected="${proyectoIdSeleccionado == null}">Elija…</option>
+                    <option th:each="p : ${proyectos}"
+                            th:value="${p.id}"
+                            th:text="${p.nombreProyecto}"
+                            th:selected="${proyectoIdSeleccionado != null && proyectoIdSeleccionado == p.id}"></option>
+                </select>
+            </div>
+            <div class="mb-3" th:if="${inversion.id != null}">
+                <label class="form-label">Proyecto</label>
+                <div class="form-control-plaintext border rounded px-2 py-2 bg-white"
+                     th:text="${inversion.proyecto.nombreProyecto}">Nombre</div>
+                <input type="hidden" name="proyectoId" th:value="${proyectoIdSeleccionado}"/>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Fecha de inversion</label>
+                <input type="date" class="form-control" name="fechaInversion" required
+                       th:value="${inversion.fechaInversion != null}
+                          ? ${#temporals.format(inversion.fechaInversion, 'yyyy-MM-dd')} : ''"/>
+            </div>
+            <!-- Título Fuentes de Aporte -->
+            <h5 class="mb-3 mt-4" style="color: #0f766e; border-bottom: 2px solid #0f766e; padding-bottom: 10px;">
+                Fuentes de Aporte
+            </h5>
+
+            <!-- Municipio -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Municipio</label>
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input class="form-control" type="number" step="0.01" min="0" name="montoMunicipio"
+                           placeholder="0.00"
+                           th:value="${inversion.id != null && inversion.fuenteInversion.name() == 'MUNICIPIO' && inversion.monto != null} ? ${inversion.monto} : ''"/>
+                </div>
+                <small class="text-muted">Aporte del municipio</small>
+            </div>
+
+            <!-- Departamento -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Departamento</label>
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input class="form-control" type="number" step="0.01" min="0" name="montoDepartamento"
+                           placeholder="0.00"
+                           th:value="${inversion.id != null && inversion.fuenteInversion.name() == 'DEPARTAMENTO' && inversion.monto != null} ? ${inversion.monto} : ''"/>
+                </div>
+                <small class="text-muted">Aporte del departamento</small>
+            </div>
+
+            <!-- Nación -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Nación</label>
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input class="form-control" type="number" step="0.01" min="0" name="montoNacion"
+                           placeholder="0.00"
+                           th:value="${inversion.id != null && inversion.fuenteInversion.name() == 'NACION' && inversion.monto != null} ? ${inversion.monto} : ''"/>
+                </div>
+                <small class="text-muted">Aporte nacional</small>
+            </div>
+
+            <!-- Otro Aportante -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Otro Aportante</label>
+                <input class="form-control mb-2" type="text" name="nombreOtroAportante" maxlength="100"
+                       placeholder="Ej. Fundación XYZ, ONG, Empresa"
+                       th:value="${inversion.id != null && inversion.fuenteInversion.name() == 'OTRO_APORTANTE' && inversion.nombreAportante != null} ? ${inversion.nombreAportante} : ''"/>
+                <small class="text-muted d-block mb-2">Nombre del aportante (si aplica)</small>
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input class="form-control" type="number" step="0.01" min="0" name="montoOtroAportante"
+                           placeholder="0.00"
+                           th:value="${inversion.id != null && inversion.fuenteInversion.name() == 'OTRO_APORTANTE' && inversion.monto != null} ? ${inversion.monto} : ''"/>
+                </div>
+                <small class="text-muted">Aporte de otro aportante</small>
+            </div>
+
+            <!-- Resumen -->
+            <div class="alert alert-secondary mt-4">
+                <strong>Resumen de inversión:</strong>
+                <div class="mt-2">
+                    <small id="resumenMunicipio">Municipio: $0.00</small><br/>
+                    <small id="resumenDepartamento">Departamento: $0.00</small><br/>
+                    <small id="resumenNacion">Nación: $0.00</small><br/>
+                    <small id="resumenOtro">Otro Aportante: $0.00</small>
+                </div>
+                <div class="mt-3 border-top pt-2">
+                    <strong id="resumenTotal">Total: $0.00</strong>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a th:href="@{/dashboard}" class="btn btn-outline-secondary ms-2">Cancelar</a>
+        </div>
+    </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Función para formatear moneda
+    function formatoPeso(num) {
+        return new Intl.NumberFormat('es-CO', {
+            style: 'currency',
+            currency: 'COP',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }).format(num);
+    }
+
+    // Función para obtener monto de un input
+    function getMonto(name) {
+        const input = document.querySelector(`input[name="${name}"]`);
+        return input && input.value ? parseFloat(input.value) : 0;
+    }
+
+    // Función para actualizar el resumen
+    function actualizarResumen() {
+        const montoMun = getMonto('montoMunicipio');
+        const montoDep = getMonto('montoDepartamento');
+        const montoNac = getMonto('montoNacion');
+        const montoOtro = getMonto('montoOtroAportante');
+
+        document.getElementById('resumenMunicipio').textContent = 'Municipio: ' + formatoPeso(montoMun);
+        document.getElementById('resumenDepartamento').textContent = 'Departamento: ' + formatoPeso(montoDep);
+        document.getElementById('resumenNacion').textContent = 'Nación: ' + formatoPeso(montoNac);
+        document.getElementById('resumenOtro').textContent = 'Otro Aportante: ' + formatoPeso(montoOtro);
+
+        const total = montoMun + montoDep + montoNac + montoOtro;
+        document.getElementById('resumenTotal').textContent = 'Total: ' + formatoPeso(total);
+    }
+
+    // Validar que al menos un monto sea ingresado
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const montoMun = getMonto('montoMunicipio');
+        const montoDep = getMonto('montoDepartamento');
+        const montoNac = getMonto('montoNacion');
+        const montoOtro = getMonto('montoOtroAportante');
+
+        const total = montoMun + montoDep + montoNac + montoOtro;
+
+        if (total <= 0) {
+            e.preventDefault();
+            alert('Debe ingresar al menos un monto de inversión');
+            return false;
+        }
+
+        // Si hay monto en "Otro Aportante", validar que tenga nombre
+        if (montoOtro > 0) {
+            const nombre = document.querySelector('input[name="nombreOtroAportante"]').value.trim();
+            if (!nombre) {
+                e.preventDefault();
+                alert('Debe ingresar el nombre del aportante para Otro Aportante');
+                return false;
+            }
+        }
+    });
+
+    // Escuchar cambios en los inputs
+    document.querySelector('input[name="montoMunicipio"]').addEventListener('input', actualizarResumen);
+    document.querySelector('input[name="montoDepartamento"]').addEventListener('input', actualizarResumen);
+    document.querySelector('input[name="montoNacion"]').addEventListener('input', actualizarResumen);
+    document.querySelector('input[name="montoOtroAportante"]').addEventListener('input', actualizarResumen);
+
+    // Inicializar resumen en la carga
+    window.addEventListener('load', function() {
+        actualizarResumen();
+    });
+</script>
+</body>
+</html>
+
