@@ -19,6 +19,7 @@
 ---
 
 ## Funcionalidades Principales
+
 <img width="475" height="382" alt="image" src="https://github.com/user-attachments/assets/0eae96ec-d5bd-494a-9701-b8ac96d5d465" />
 
 ### 1. **Autenticación y Autorización**
@@ -34,7 +35,9 @@
 
 
 ### 2. **Gestión de Proyectos**
+
 <img width="739" height="602" alt="image" src="https://github.com/user-attachments/assets/12c64def-1520-437a-bf11-1f49d98fba81" />
+
 - **Crear Proyectos**: Formulario para registrar nuevos proyectos con información completa
 - **Editar Proyectos**: Modificación de datos existentes con validaciones
 - **Gestión de Estados**: Clasificación de proyectos por estados (Planeación, Ejecución, Completado, etc.)
@@ -67,6 +70,8 @@
   - Filtrar por estado del proyecto
 - **Gráficos Interactivos**: Visualización de inversiones por municipios
 - **Información Detallada**: Tabla con listado de proyectos e inversiones
+- <img width="1327" height="441" alt="image" src="https://github.com/user-attachments/assets/31f8c3a2-3ca7-41cc-9706-ce785ec61fe4" />
+
 
 ### 5. **Consultas Avanzadas**
 - **Consulta por Estado**: Buscar proyectos por estado en un rango de fechas
