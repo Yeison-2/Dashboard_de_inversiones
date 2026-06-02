@@ -4,7 +4,7 @@
 <img width="1354" height="745" alt="image" src="https://github.com/user-attachments/assets/8e8b8083-b92e-4fd6-bdcb-ba108e2e8657" />
 
 
-**Web-2026-i** es una aplicación web desarrollada con **Spring Boot 4.0.2** que implementa un sistema integral de gestión de proyectos e inversiones para instituciones educativas. La aplicación permite administrar información sobre proyectos de desarrollo, sus inversiones asociadas y generar reportes y análisis de inversión.
+**Dashboard_de_inversiones** es una aplicación web desarrollada con **Spring Boot** que implementa un sistema integral de gestión de proyectos e inversiones en municipios de Boyacá Colombia. La aplicación permite administrar información sobre proyectos de desarrollo, sus inversiones asociadas y generar reportes y análisis de inversión.
 
 ### Tecnología y Stack Tecnológico
 
